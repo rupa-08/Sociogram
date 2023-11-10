@@ -29,4 +29,11 @@ If you are developing a production application, we recommend updating the config
 ### NOTES
 
 npm create vite@latest ./
+
+### for tailwind setup
+
+-> npm install -D tailwindcss postcss autoprefixer
+-> npx tailwindcss init -p
+-> npm i -D tailwindcss-animate
+
 npm run dev
