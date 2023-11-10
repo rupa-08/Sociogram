@@ -36,4 +36,11 @@ npm create vite@latest ./
 -> npx tailwindcss init -p
 -> npm i -D tailwindcss-animate
 
+### ShadCN
+
+-> npm i -D @types/node
+-> npx shadcn-ui@latest init
+
+-> npx shadcn-ui@latest add form
+
 npm run dev
