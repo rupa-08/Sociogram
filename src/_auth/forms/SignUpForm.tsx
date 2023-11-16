@@ -1,4 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod/src/zod.js";
+
+import { useToast } from "@/components/ui/use-toast";
 import {
   Form,
   FormControl,
@@ -17,6 +19,7 @@ import { Link } from "react-router-dom";
 import { createUserAccount } from "@/lib/appwrite/api";
 
 const SignUpForm = () => {
+  const { toast } = useToast();
   const isLoading = false;
   // Defining form
   const form = useForm<z.infer<typeof SignUpValidation>>({
@@ -35,8 +38,12 @@ const SignUpForm = () => {
     const newUser = await createUserAccount(user);
 
     if (!newUser) {
-      return;
+      return toast({
+        title: "Sign up failed. Please try again later.",
+      });
     }
+
+    // const session = await signInAccount();
   };
 
   return (
