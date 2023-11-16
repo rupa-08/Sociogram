@@ -1,2 +1,7 @@
-export const VITE_APPWRITE_PROJECT_ID = "654dfaa34a88d588a8e4";
 export const VITE_APPWRITE_URL = "https://cloud.appwrite.io/v1";
+export const VITE_APPWRITE_PROJECT_ID = "654dfaa34a88d588a8e4";
+export const VITE_APPWRITE_STORAGE_ID = "6555c2d644a4938230ee";
+export const VITE_APPWRITE_DATABASE_ID = "6555c374333905582fc4";
+export const VITE_SAVES_COLLECTION_ID = "6555c449479082d6bc97";
+export const VITE_USER_COLLECTION_ID = "6555c41db90d4d6ecc8d";
+export const VITE_POST_COLLECTION_ID = "6555c3f98e555f788e0c";

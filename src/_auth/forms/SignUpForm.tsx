@@ -33,7 +33,10 @@ const SignUpForm = () => {
   const handleSignup = async (user: z.infer<typeof SignUpValidation>) => {
     // Create user
     const newUser = await createUserAccount(user);
-    console.log(newUser);
+
+    if (!newUser) {
+      return;
+    }
   };
 
   return (
