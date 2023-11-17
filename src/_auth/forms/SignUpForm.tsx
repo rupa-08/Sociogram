@@ -44,7 +44,7 @@ const SignUpForm = () => {
   const { mutateAsync: createUserAccount, isPending: isCreatingUser } =
     useCreateUserAccount();
 
-  const { mutateAsync: signInAccount, isPending: isSigning } =
+  const { mutateAsync: signInAccount, isPending: isSigningIn } =
     useSignInAccount();
 
   const handleSignup = async (values: z.infer<typeof SignUpValidation>) => {
@@ -65,7 +65,7 @@ const SignUpForm = () => {
 
     if (!session) {
       return toast({
-        title: "Sign In failed. Please try again later.",
+        title: "Sign in failed. Please try again later.",
       });
     }
 
@@ -165,7 +165,7 @@ const SignUpForm = () => {
               to="/sign-in"
               className="text-primary-500 text-small-semibold ml-1"
             >
-              Log in
+              Sign in
             </Link>
           </p>
         </form>
