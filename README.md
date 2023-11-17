@@ -43,4 +43,7 @@ npm create vite@latest ./
 
 -> npx shadcn-ui@latest add form
 
+for localhost url configuration
+-> npm i @vitejs/plugin-react-swc
+
 npm run dev
