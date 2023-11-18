@@ -16,13 +16,21 @@ import { Button } from "../ui/button";
 import FileUploader from "../shared/FileUploader";
 
 export const postSchemaValidation = z.object({
-  caption: z.string().email(),
-  file: z.string(),
-  location: z.string().min(8, { message: "" }),
-  tags: z.string().min(8, ""),
+  name: z
+    .string()
+    .min(2, { message: "Caption should be longer than 2 characters." }),
+
+  // caption: z
+  //   .string()
+  //   .min(2, { message: "Caption should be longer than 2 characters." }),
+  // file: z.string(),
+  // location: z.string().min(5, { message: "Please provide correct location." }),
+  // tags: z
+  //   .string()
+  //   .min(2, { message: "Tags needs to be longer than a character." }),
 });
 
-const PostForm = () => {
+const PostForm = ({ post }) => {
   const form = useForm<z.infer<typeof postSchemaValidation>>({
     resolver: zodResolver(postSchemaValidation),
     defaultValues: {},
@@ -66,7 +74,10 @@ const PostForm = () => {
               <FormItem>
                 <FormLabel className="shad-form_label">Add photos</FormLabel>
                 <FormControl>
-                  <FileUploader />
+                  <FileUploader
+                    fieldChange={field.onChange}
+                    mediaUrl={post?.imageUrl}
+                  />
                 </FormControl>
                 <FormMessage className="shad-form_message" />
               </FormItem>
