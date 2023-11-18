@@ -42,6 +42,7 @@ npm create vite@latest ./
 -> npx shadcn-ui@latest init
 
 -> npx shadcn-ui@latest add form
+->npx shadcn-ui@latest add textarea
 
 for localhost url configuration
 -> npm i @vitejs/plugin-react-swc
