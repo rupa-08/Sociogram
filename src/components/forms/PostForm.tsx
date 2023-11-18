@@ -14,31 +14,25 @@ import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import FileUploader from "../shared/FileUploader";
+import { postValidation } from "@/lib/validation";
+import { Models } from "appwrite";
 
-export const postSchemaValidation = z.object({
-  name: z
-    .string()
-    .min(2, { message: "Caption should be longer than 2 characters." }),
+type PostFormProps = {
+  post?: Models.Document;
+};
 
-  // caption: z
-  //   .string()
-  //   .min(2, { message: "Caption should be longer than 2 characters." }),
-  // file: z.string(),
-  // location: z.string().min(5, { message: "Please provide correct location." }),
-  // tags: z
-  //   .string()
-  //   .min(2, { message: "Tags needs to be longer than a character." }),
-});
-
-const PostForm = ({ post }) => {
-  const form = useForm<z.infer<typeof postSchemaValidation>>({
-    resolver: zodResolver(postSchemaValidation),
-    defaultValues: {},
+const PostForm = ({ post }: PostFormProps) => {
+  const form = useForm<z.infer<typeof postValidation>>({
+    resolver: zodResolver(postValidation),
+    defaultValues: {
+      caption: post ? post?.caption : "",
+      file: [],
+      location: post ? post?.location : "",
+      tags: post ? post.tags.join(",") : "",
+    },
   });
 
-  const handleFormSubmit = async (
-    values: z.infer<typeof postSchemaValidation>
-  ) => {
+  const handleFormSubmit = async (values: z.infer<typeof postValidation>) => {
     console.log(values);
   };
 
