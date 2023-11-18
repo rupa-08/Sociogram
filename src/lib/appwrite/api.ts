@@ -146,9 +146,9 @@ export async function uploadFile(file: File) {
   }
 }
 
-export async function getFilePreview(fileId: string) {
+export function getFilePreview(fileId: string) {
   try {
-    const fileUrl = await storage.getFilePreview(
+    const fileUrl = storage.getFilePreview(
       appwriteConfig.storageId,
       fileId,
       2000,
