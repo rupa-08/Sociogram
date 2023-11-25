@@ -1,38 +1,25 @@
+import { Link } from "react-router-dom";
 import { Models } from "appwrite";
 
 import { Button } from "../ui/button";
-import { useUserContext } from "@/context/AuthContext";
 
-type TopCreatorProps = {
-  topCreators?: Models.Document | undefined;
+type UserCardProps = {
+  users: Models.Document;
 };
-
-const UserCard = ({ topCreators }: TopCreatorProps) => {
-  const { user } = useUserContext();
-
+const UserCard = ({ users }: UserCardProps) => {
   return (
-    <div className="grid grid-cols-2 gap-2">
-      {topCreators
-        ?.filter((creator: Models.Document) => creator?.$id !== user?.id)
-        ?.map((creator: Models.Document) => {
-          return (
-            <div className="user-card">
-              <img
-                className="w-8 h-8 rounded-full object-cover"
-                src={creator?.imageUrl}
-                alt="creator-img"
-              />
-              <p className="text-xs font-bold text-center">{creator?.name}</p>
-              <Button
-                type="button"
-                className="shad-button_primary whitespace-nowrap"
-              >
-                Follow
-              </Button>
-            </div>
-          );
-        })}
-    </div>
+    <Link to={`/profile/${users.$id}`} className="user-card">
+      <img
+        className="w-8 h-8 rounded-full object-cover"
+        src={users?.imageUrl}
+        alt="creator-img"
+      />
+      <p className="text-xs font-bold text-center">{users?.name}</p>
+      <p className="text-xs font-bold text-center">@{users?.username}</p>
+      <Button type="button" className="shad-button_primary whitespace-nowrap">
+        Follow
+      </Button>
+    </Link>
   );
 };
 
