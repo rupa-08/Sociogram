@@ -199,7 +199,7 @@ export const useGetPosts = () => {
 
 export const useSearchPosts = (searchParam: string) => {
   return useQuery({
-    queryKey: [QUERY_KEYS.SEARCH_POSTS],
+    queryKey: [QUERY_KEYS.SEARCH_POSTS, searchParam],
     queryFn: () => serachPost(searchParam),
     enabled: !!searchParam, // automatically re fetch post when search param changes
   });

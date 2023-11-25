@@ -5,15 +5,19 @@ import { Input } from "@/components/ui/input";
 import useDebounce from "@/hooks/useDebounce";
 import GridPostList from "@/components/shared/GridPostList";
 import SearchedResults from "@/components/shared/SearchedResults";
-import { useGetPosts } from "@/lib/react-query/queriesAndMutations";
+import {
+  useGetPosts,
+  useSearchPosts,
+} from "@/lib/react-query/queriesAndMutations";
 import Loader from "@/components/shared/Loader";
 
 const Explore = () => {
   // for search
   const [searchValue, setSearchValue] = useState("");
-  const debouncedValue = useDebounce(searchValue, 500);
-  const { data: searchedPosts, isFetching: isFetchingPost } =
-    useSearchParams(debouncedValue);
+  const debouncedSearch = useDebounce(searchValue, 500);
+
+  const { data: searchedPosts, isFetching: isSearchFetching } =
+    useSearchPosts(debouncedSearch);
 
   // for infinite posts
   const { data: posts, fetchNextPage, hasNextPage } = useGetPosts();
@@ -65,7 +69,10 @@ const Explore = () => {
       </div>
       <div className="flex flex-warp gap-9 w-full max-w-5xl">
         {isSearched ? (
-          <SearchedResults />
+          <SearchedResults
+            isSearchFetching={isSearchFetching}
+            searchedPosts={searchedPosts}
+          />
         ) : postList ? (
           <p className="text-light-4 mt-10 text-center w-full">End of posts</p>
         ) : (
