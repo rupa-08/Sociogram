@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+
+import { useInView } from "react-intersection-observer";
 
 import { Input } from "@/components/ui/input";
 import useDebounce from "@/hooks/useDebounce";
@@ -12,6 +13,8 @@ import {
 import Loader from "@/components/shared/Loader";
 
 const Explore = () => {
+  const { ref, inView } = useInView();
+
   // for search
   const [searchValue, setSearchValue] = useState("");
   const debouncedSearch = useDebounce(searchValue, 500);
@@ -21,6 +24,10 @@ const Explore = () => {
 
   // for infinite posts
   const { data: posts, fetchNextPage, hasNextPage } = useGetPosts();
+
+  useEffect(() => {
+    if (inView && !searchValue) fetchNextPage();
+  }, [inView, searchValue]);
 
   if (!posts) {
     return (
@@ -33,7 +40,7 @@ const Explore = () => {
   const isSearched = searchValue !== "";
   const postList =
     !isSearched && posts.pages.every((item) => item.documents.length === 0);
-  console.log(posts);
+
   return (
     <div className="explore-conatiner mx-7 my-7">
       <div className="explore-inner_container">
@@ -67,7 +74,7 @@ const Explore = () => {
           />
         </div>
       </div>
-      <div className="flex flex-warp gap-9 w-full max-w-5xl">
+      <div className="flex flex-wrap gap-9 w-full max-w-5xl">
         {isSearched ? (
           <SearchedResults
             isSearchFetching={isSearchFetching}
@@ -81,6 +88,12 @@ const Explore = () => {
           ))
         )}
       </div>
+
+      {hasNextPage && !searchValue && (
+        <div ref={ref} className="mt-10">
+          <Loader />
+        </div>
+      )}
     </div>
   );
 };
