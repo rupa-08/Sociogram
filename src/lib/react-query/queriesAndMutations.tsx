@@ -12,8 +12,10 @@ import {
   deleteSavedPost,
   getCurrentUser,
   getInfinitePosts,
+  getOtherUserProfile,
   getPostById,
   getRecentPosts,
+  getUserById,
   getUsers,
   likePost,
   savePost,
@@ -210,5 +212,13 @@ export const useGetUsers = (limit?: number) => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_USERS, limit],
     queryFn: () => getUsers(limit),
+  });
+};
+
+export const useGetOtherUserProfile = (userId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USER_BY_ID, userId],
+    queryFn: () => getOtherUserProfile(userId),
+    enabled: !!userId,
   });
 };

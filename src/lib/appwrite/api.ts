@@ -3,6 +3,7 @@ import { INewPost, INewUser, IUpdatePost } from "@/types";
 
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 
+// user start
 export async function createUserAccount(user: INewUser) {
   try {
     const newAccount = await account.create(
@@ -87,7 +88,25 @@ export async function signOutAccount() {
   }
 }
 
-// For create post
+export async function getOtherUserProfile(userId: string) {
+  try {
+    const user = await databases.getDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      userId
+    );
+
+    if (!user) throw Error;
+
+    return user;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// user end
+
+// post start
 
 export async function createPost(post: INewPost) {
   try {
@@ -347,6 +366,8 @@ export async function serachPost(searchParam: string) {
     console.log(error);
   }
 }
+
+// post end
 export async function getUsers(limit?: number) {
   const query: any[] = [Query.orderDesc("$createdAt")];
 

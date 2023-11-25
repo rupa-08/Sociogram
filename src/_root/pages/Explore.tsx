@@ -42,7 +42,7 @@ const Explore = () => {
     !isSearched && posts.pages.every((item) => item.documents.length === 0);
 
   return (
-    <div className="explore-conatiner mx-7 my-7">
+    <div className="explore-container mx-7 my-7">
       <div className="explore-inner_container">
         <h2 className="h3-bold md:h2-bold w-full">Search Posts</h2>
         <div className="flex gap-1 px-4 w-full rounded-lg bg-dark-4">

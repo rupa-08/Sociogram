@@ -17,7 +17,7 @@ const UserCard = ({ users }: UserCardProps) => {
       <p className="text-xs font-bold text-center">{users?.name}</p>
       <p className="text-xs font-bold text-center">@{users?.username}</p>
       <Button type="button" className="shad-button_primary whitespace-nowrap">
-        Follow
+        View
       </Button>
     </Link>
   );

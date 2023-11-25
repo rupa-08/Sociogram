@@ -14,7 +14,7 @@ const PostDetails = () => {
 
   const handleDeletePost = () => {};
   return (
-    <div className="post_details-conatiner">
+    <div className="post_details-container">
       {isPending ? (
         <Loader />
       ) : (
@@ -79,7 +79,7 @@ const PostDetails = () => {
               </div>
             </div>
 
-            <hr className="boredr w-full border-dark-4/40" />
+            <hr className="border w-full border-dark-4/40" />
 
             <div className="flex flex-col flex-1 w-full small-medium lg:base-regular">
               <p>{post?.caption}</p>
