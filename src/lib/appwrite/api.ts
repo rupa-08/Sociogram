@@ -347,3 +347,23 @@ export async function serachPost(searchParam: string) {
     console.log(error);
   }
 }
+export async function getUsers(limit?: number) {
+  const query: any[] = [Query.orderDesc("$createdAt")];
+
+  if (limit) {
+    query.push(Query.limit(limit));
+  }
+  try {
+    const users = databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      query
+    );
+
+    if (!users) throw Error;
+
+    return users;
+  } catch (error) {
+    console.log(error);
+  }
+}

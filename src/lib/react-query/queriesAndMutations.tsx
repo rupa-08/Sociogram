@@ -14,6 +14,7 @@ import {
   getInfinitePosts,
   getPostById,
   getRecentPosts,
+  getUsers,
   likePost,
   savePost,
   serachPost,
@@ -202,5 +203,12 @@ export const useSearchPosts = (searchParam: string) => {
     queryKey: [QUERY_KEYS.SEARCH_POSTS, searchParam],
     queryFn: () => serachPost(searchParam),
     enabled: !!searchParam, // automatically re fetch post when search param changes
+  });
+};
+
+export const useGetUsers = (limit?: number) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USERS, limit],
+    queryFn: () => getUsers(limit),
   });
 };
