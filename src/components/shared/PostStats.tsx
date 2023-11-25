@@ -11,12 +11,12 @@ import { Models } from "appwrite";
 import Loader from "./Loader";
 
 type postStatsProps = {
-  post: Models.Document;
+  post?: Models.Document;
   userId: string;
 };
 
 const PostStats = ({ post, userId }: postStatsProps) => {
-  const likedList = post.likes.map((user: Models.Document) => user.$id);
+  const likedList = post?.likes.map((user: Models.Document) => user.$id);
 
   const [likes, setLikes] = useState(likedList);
   const [isSaved, setIsSaved] = useState(false);
@@ -49,7 +49,7 @@ const PostStats = ({ post, userId }: postStatsProps) => {
     }
 
     setLikes(newLikes);
-    likePost({ postId: post.$id, likesArray: newLikes });
+    likePost({ postId: post?.$id || "", likesArray: newLikes });
   };
 
   //   save post
@@ -66,7 +66,7 @@ const PostStats = ({ post, userId }: postStatsProps) => {
       deleteSavePost(savedPostRecord.$id);
     } else {
       // saving post
-      savePost({ postId: post?.$id, userId });
+      savePost({ postId: post?.$id || "", userId });
       setIsSaved(true);
     }
   };
