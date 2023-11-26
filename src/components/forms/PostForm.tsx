@@ -18,7 +18,7 @@ import { postValidation } from "@/lib/validation";
 import { Models } from "appwrite";
 import {
   useCreatePost,
-  useDeletePost,
+  // useDeletePost,
   useUpdatePost,
 } from "@/lib/react-query/queriesAndMutations";
 import { useUserContext } from "@/context/AuthContext";
@@ -37,12 +37,13 @@ const PostForm = ({ post, action }: PostFormProps) => {
     useCreatePost();
   const { mutateAsync: updatePost, isPending: isUpdatingPost } =
     useUpdatePost();
-  const { mutateAsync: deletePost, isPending: isDeletingPost } =
-    useDeletePost();
+  // const { mutateAsync: deletePost, isPending: isDeletingPost } =
+  //   useDeletePost();
 
   const { user } = useUserContext();
   const { toast } = useToast();
 
+  // form validation
   const form = useForm<z.infer<typeof postValidation>>({
     resolver: zodResolver(postValidation),
     defaultValues: {
@@ -53,6 +54,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
     },
   });
 
+  // form submission handle
   const handleFormSubmit = async (values: z.infer<typeof postValidation>) => {
     if (post && action === "Update") {
       const updatedPost = await updatePost({

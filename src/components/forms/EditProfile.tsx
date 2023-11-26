@@ -1,8 +1,10 @@
 import { useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
 
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { useToast } from "../ui/use-toast";
 import { Button } from "../ui/button";
 import { useUserContext } from "@/context/AuthContext";
 import {
@@ -16,10 +18,24 @@ import {
 import { Input } from "../ui/input";
 import { updateUserValidation } from "@/lib/validation";
 import ProfileImageUploader from "../shared/ProfileImageUploader";
+import {
+  useGetOtherUserProfile,
+  useUpdateUserData,
+} from "@/lib/react-query/queriesAndMutations";
+import Loader from "../shared/Loader";
 
 const EditProfile = () => {
-  const { user } = useUserContext();
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const { user, setUser } = useUserContext();
+  const { toast } = useToast();
 
+  // queries
+  const { data: currentUser } = useGetOtherUserProfile(id || "");
+  const { mutateAsync: updateUser, isPending: isUpdatingUser } =
+    useUpdateUserData();
+
+  // form validation
   const form = useForm<z.infer<typeof updateUserValidation>>({
     resolver: zodResolver(updateUserValidation),
     defaultValues: {
@@ -31,11 +47,40 @@ const EditProfile = () => {
     },
   });
 
+  // form submission handle
   const handleProfileUpdate = async (
-    values: z.infer<typeof updateUserValidation>
+    value: z.infer<typeof updateUserValidation>
   ) => {
-    console.log("values", values);
+    if (currentUser) {
+      const updatedUser = await updateUser({
+        userId: currentUser?.$id,
+        name: value.name,
+        bio: value.bio,
+        file: value.file,
+        imageUrl: currentUser?.imageUrl,
+        imageId: currentUser?.imageId,
+      });
+
+      if (!updateUser) {
+        toast({ title: "Please try again." });
+      }
+
+      setUser({
+        ...user,
+        name: updatedUser?.name,
+        bio: updatedUser?.bio,
+        imageUrl: updatedUser?.imageUrl,
+      });
+      return navigate(`/profile/${id}`);
+    }
   };
+
+  if (!currentUser)
+    return (
+      <div className="flex-center w-full h-full">
+        <Loader />
+      </div>
+    );
   return (
     <Form {...form}>
       <form
@@ -94,7 +139,12 @@ const EditProfile = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" className="shad-input" {...field} />
+                <Input
+                  type="email"
+                  className="shad-input"
+                  {...field}
+                  disabled
+                />
               </FormControl>
               <FormMessage className="shad-form_message" />
             </FormItem>
@@ -116,7 +166,7 @@ const EditProfile = () => {
         ></FormField>
 
         <Button type="submit" className="shad-button_primary whitespace-nowrap">
-          Submit
+          {isUpdatingUser ? <Loader /> : "Submit"}
         </Button>
       </form>
     </Form>

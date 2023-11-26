@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+
 import { useGetOtherUserProfile } from "@/lib/react-query/queriesAndMutations";
 import ProfileCard from "@/components/shared/ProfileCard";
 import Loader from "@/components/shared/Loader";
@@ -19,10 +20,12 @@ const Profile = () => {
         {isPending ? (
           <Loader />
         ) : (
-          <ProfileCard
-            currentProfile={currentProfile}
-            isLoggedInUser={isLoggedInUser}
-          />
+          currentProfile && (
+            <ProfileCard
+              currentProfile={currentProfile}
+              isLoggedInUser={isLoggedInUser}
+            />
+          )
         )}
       </div>
     </div>

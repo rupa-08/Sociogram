@@ -25,7 +25,7 @@ const ProfileCard = ({
 
   const savedPosts =
     currentProfile?.save?.length > 0 &&
-    currentProfile?.save.map((item) => item.post);
+    currentProfile?.save.map((item: Models.Document) => item.post);
 
   const handleEditProfile = () => {
     navigate(`/update-profile/${currentProfile?.$id}`);
@@ -65,10 +65,7 @@ const ProfileCard = ({
       </div>
 
       <div className="flex flex-col mt-5 w-full justify-between px-24 gap-5">
-        <div>
-          Exploring the world through art and words | Painter & Poet | Capturing
-          emotions on canvas | Dreamer & Creator | 🎨✨
-        </div>
+        <p>{currentProfile?.bio}</p>
         <div className="flex flex-col">
           <p className="text-primary-500">Posts</p>
           <p>{currentProfile?.posts?.length}</p>
