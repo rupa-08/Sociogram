@@ -8,7 +8,7 @@ const AllUsers = () => {
 
   const { user } = useUserContext();
   return (
-    <div className="w-full user-conatiner mx-9 my-9">
+    <div className="flex flex-col flex-1 gap-10 overflow-scroll py-10 px-5 md:p-14 custom-scrollbar">
       <div className="flex gap-2 mb-7">
         <img alt="users-icon" src="/assets/icons/people.svg" />
         <h2 className="h3-bold lg:h2-bold ">All Users</h2>

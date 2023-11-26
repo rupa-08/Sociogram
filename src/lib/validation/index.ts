@@ -27,3 +27,19 @@ export const postValidation = z.object({
   location: z.string().min(2).max(100),
   tags: z.string(),
 });
+
+export const updateUserValidation = z.object({
+  file: z.custom<File[]>(),
+  name: z
+    .string()
+    .min(2, { message: "Name should be more than one character." }),
+  username: z
+    .string()
+    .min(2, { message: "User name must be more than one character." })
+    .max(50),
+  email: z.string().email(),
+  bio: z
+    .string()
+    .min(2, { message: "User name must be more than one character." })
+    .max(250),
+});
