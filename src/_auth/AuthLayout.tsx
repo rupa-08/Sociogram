@@ -10,11 +10,11 @@ const AuthLayout = () => {
         <Navigate to="/" />
       ) : (
         <>
-          <section className="flex flex-1 justify-center items-center flex-col py-10">
+          <section className="flex flex-1 items-center flex-col overflow-scroll px-5 pb-9 custom-scrollbar">
             <Outlet />
           </section>
           <img
-            src="assets/images/side-img.svg"
+            src="assets/images/bg.jpg"
             alt="logo"
             className="hidden xl:block h-screen w-1/2 bg-no-repeat object-cover"
           />
