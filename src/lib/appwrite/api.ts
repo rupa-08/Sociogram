@@ -417,6 +417,23 @@ export async function serachPost(searchParam: string) {
   }
 }
 
+export async function getUserPost(userId: number) {
+  if (!userId) return;
+  try {
+    const getUserPost = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.postCollectionId,
+      [Query.equal("creator", userId), Query.orderDesc("$createdAt")]
+    );
+
+    if (!getUserPost) throw Error;
+
+    return getUserPost;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 // post end
 export async function getUsers(limit?: number) {
   const query: any[] = [Query.orderDesc("$createdAt")];

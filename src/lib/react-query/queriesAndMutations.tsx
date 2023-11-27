@@ -15,6 +15,7 @@ import {
   getOtherUserProfile,
   getPostById,
   getRecentPosts,
+  getUserPost,
   getUsers,
   likePost,
   savePost,
@@ -237,5 +238,13 @@ export const useUpdateUserData = () => {
         queryKey: [QUERY_KEYS.GET_USER_BY_ID, data?.$id],
       });
     },
+  });
+};
+
+export const useGetUserPost = (userId: number) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USER_POSTS],
+    queryFn: () => getUserPost(userId),
+    enabled: !!userId,
   });
 };
