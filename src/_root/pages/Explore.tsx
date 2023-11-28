@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 
 import { useInView } from "react-intersection-observer";
@@ -40,7 +41,8 @@ const Explore = () => {
 
   const isSearched = searchValue !== "";
   const postList =
-    !isSearched && posts.pages.every((item) => item.documents.length === 0);
+    !isSearched &&
+    posts.pages.every((item: any) => item.documents.length === 0);
 
   return (
     <div className="explore-container mx-7 my-7">
@@ -84,7 +86,7 @@ const Explore = () => {
         ) : postList ? (
           <p className="text-light-4 mt-10 text-center w-full">End of posts</p>
         ) : (
-          posts.pages.map((item, index) => (
+          posts.pages.map((item: any, index) => (
             <GridPostList key={`page-${index}`} posts={item.documents} />
           ))
         )}

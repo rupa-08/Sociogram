@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link } from "react-router-dom";
 
 import { Models } from "appwrite";
@@ -5,10 +6,10 @@ import { Models } from "appwrite";
 import { useUserContext } from "@/context/AuthContext";
 import { Button } from "../ui/button";
 
-type UserCardProps = {
-  users: Models.Document;
-};
-const UserCard = ({ users }: UserCardProps) => {
+// type UserCardProps = {
+//   users: Models.Document;
+// };
+const UserCard = ({ users }: any) => {
   const { user } = useUserContext();
 
   return (

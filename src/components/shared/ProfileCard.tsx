@@ -36,7 +36,10 @@ const ProfileCard = ({
       <div className="flex justify-between w-full">
         <div className="flex gap-2">
           <img
-            src={currentProfile?.imageUrl || "/assets/images/profile.png"}
+            src={
+              currentProfile?.imageUrl ||
+              "/assets/icons/profile-placeholder.svg"
+            }
             alt="profile"
             className="h-20 w-20 rounded-full"
           />

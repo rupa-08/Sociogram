@@ -2,30 +2,6 @@
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
-
 ### NOTES
 
 npm create vite@latest ./
@@ -56,3 +32,29 @@ npm run dev
 ## End of page
 
 -> npm install react-intersection-observer
+
+## for deployment in firebase(terminal code)
+
+->> create project in firebase and create you web app
+
+npm install firebase
+1- npm i -g firebase-tools
+2- firebase login (logging to your browser from terminal with browser)
+""""-> error enconter(
+open powershell as admin
+-> Get-ExecutionPolicy
+-> Set-ExecutionPolicy RemoteSigned
+-> Set-ExecutionPolicy Unrestricted
+
+            after completion
+               -> Set-ExecutionPolicy Restricted
+
+            )""""
+
+3- firebase config and json create
+4- firebase init(yes, hoasting,...)
+
+6- npm run build (development branch) (as vite has dist folder instead of build file)
+7- firebase deploy
+
+app deployed link in firebase(https://sociogram-c6ecb.web.app) -> this does not work as appwrite only allows localhost and its url is not local host so it is block and thorws cors error.
