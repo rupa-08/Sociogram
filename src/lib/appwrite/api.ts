@@ -1,9 +1,9 @@
 import { ID, Query } from "appwrite";
-import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
 
+import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage } from "./config";
 
-// user start
+// user account create and sign in
 export async function createUserAccount(user: INewUser) {
   try {
     const newAccount = await account.create(
@@ -61,6 +61,16 @@ export async function signInAccount(user: { email: string; password: string }) {
   }
 }
 
+export async function signOutAccount() {
+  try {
+    const session = await account.deleteSession("current");
+    return session;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// getting user start
 export async function getCurrentUser() {
   try {
     const currentAccount = await account.get();
@@ -79,15 +89,6 @@ export async function getCurrentUser() {
   }
 }
 
-export async function signOutAccount() {
-  try {
-    const session = await account.deleteSession("current");
-    return session;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
 export async function getOtherUserProfile(userId: string) {
   try {
     const user = await databases.getDocument(
@@ -99,6 +100,27 @@ export async function getOtherUserProfile(userId: string) {
     if (!user) throw Error;
 
     return user;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getUsers(limit?: number) {
+  const query: any[] = [Query.orderDesc("$createdAt")];
+
+  if (limit) {
+    query.push(Query.limit(limit));
+  }
+  try {
+    const users = databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      query
+    );
+
+    if (!users) throw Error;
+
+    return users;
   } catch (error) {
     console.log(error);
   }
@@ -129,8 +151,6 @@ export async function updateUser(updateUserData: IUpdateUser) {
       image = { ...image, imageUrl: fileUrl, imageId: updatedFile?.$id };
     }
 
-    console.log("new data", updateUserData);
-
     const updatedUser = await databases.updateDocument(
       appwriteConfig.databaseId,
       appwriteConfig.userCollectionId,
@@ -154,6 +174,29 @@ export async function updateUser(updateUserData: IUpdateUser) {
     console.log(error);
   }
 }
+
+export async function getInfiniteUsers({ pageParam }: { pageParam: number }) {
+  const queries = [Query.limit(15)];
+
+  if (pageParam) {
+    queries.push(Query.cursorAfter(pageParam.toString()));
+  }
+
+  try {
+    const users = await databases.listDocuments(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      queries
+    );
+
+    if (!users) throw Error;
+
+    return users;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 // user end
 
 // post start
@@ -380,7 +423,7 @@ export async function deletePost(postId: string, imageId: string) {
 }
 
 export async function getInfinitePosts({ pageParam }: { pageParam: number }) {
-  const queries: any[] = [Query.orderDesc("$updatedAt"), Query.limit(3)];
+  const queries: any[] = [Query.orderDesc("$updatedAt"), Query.limit(10)];
 
   if (pageParam) {
     queries.push(Query.cursorAfter(pageParam.toString()));
@@ -435,45 +478,3 @@ export async function getUserPost(userId: number) {
 }
 
 // post end
-export async function getUsers(limit?: number) {
-  const query: any[] = [Query.orderDesc("$createdAt")];
-
-  if (limit) {
-    query.push(Query.limit(limit));
-  }
-  try {
-    const users = databases.listDocuments(
-      appwriteConfig.databaseId,
-      appwriteConfig.userCollectionId,
-      query
-    );
-
-    if (!users) throw Error;
-
-    return users;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-export async function getInfiniteUsers({ pageParam }: { pageParam: number }) {
-  const queries = [Query.limit(5)];
-
-  if (pageParam) {
-    queries.push(Query.cursorAfter(pageParam.toString()));
-  }
-
-  try {
-    const users = await databases.listDocuments(
-      appwriteConfig.databaseId,
-      appwriteConfig.userCollectionId,
-      queries
-    );
-
-    if (!users) throw Error;
-
-    return users;
-  } catch (error) {
-    console.log(error);
-  }
-}

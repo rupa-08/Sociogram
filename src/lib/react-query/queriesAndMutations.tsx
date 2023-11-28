@@ -5,6 +5,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 
+import { QUERY_KEYS } from "./queryKeys";
 import {
   createPost,
   createUserAccount,
@@ -27,7 +28,8 @@ import {
   updateUser,
 } from "../appwrite/api";
 import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
-import { QUERY_KEYS } from "./queryKeys";
+
+// user account create and sign in
 
 export const useCreateUserAccount = () => {
   return useMutation({
@@ -47,6 +49,8 @@ export const useSignOutAccount = () => {
     mutationFn: signOutAccount,
   });
 };
+
+// user post crud start
 
 export const useCreatePost = () => {
   const queryClient = useQueryClient();
@@ -144,12 +148,69 @@ export const useDeleteSavedPost = () => {
   });
 };
 
+// user post crud end
+
+// user crud start
+
 export const useGetCurrentUser = () => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_CURRENT_USER],
     queryFn: getCurrentUser,
   });
 };
+
+export const useGetUsers = (limit?: number) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USERS, limit],
+    queryFn: () => getUsers(limit),
+  });
+};
+
+export const useGetOtherUserProfile = (userId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USER_BY_ID, userId],
+    queryFn: () => getOtherUserProfile(userId),
+    enabled: !!userId,
+  });
+};
+
+export const useUpdateUserData = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (updateUserData: IUpdateUser) => updateUser(updateUserData),
+
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_USER_BY_ID, data?.$id],
+      });
+    },
+  });
+};
+
+export const useGetInfiniteUsers = () => {
+  return useInfiniteQuery({
+    queryKey: ["getInfiniteUsers"],
+    queryFn: getInfiniteUsers,
+    getNextPageParam: (lastPage) => {
+      if (lastPage && lastPage.documents.length === 0) {
+        return null;
+      }
+
+      const lastPageId =
+        lastPage?.documents[lastPage?.documents.length - 1].$id;
+
+      return lastPageId;
+    },
+  });
+};
+
+// user crud end
+
+// post start
 
 export const useGetPostById = (postId: string) => {
   return useQuery({
@@ -210,38 +271,6 @@ export const useSearchPosts = (searchParam: string) => {
   });
 };
 
-export const useGetUsers = (limit?: number) => {
-  return useQuery({
-    queryKey: [QUERY_KEYS.GET_USERS, limit],
-    queryFn: () => getUsers(limit),
-  });
-};
-
-export const useGetOtherUserProfile = (userId: string) => {
-  return useQuery({
-    queryKey: [QUERY_KEYS.GET_USER_BY_ID, userId],
-    queryFn: () => getOtherUserProfile(userId),
-    enabled: !!userId,
-  });
-};
-
-export const useUpdateUserData = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: (updateUserData: IUpdateUser) => updateUser(updateUserData),
-
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.GET_CURRENT_USER],
-      });
-      queryClient.invalidateQueries({
-        queryKey: [QUERY_KEYS.GET_USER_BY_ID, data?.$id],
-      });
-    },
-  });
-};
-
 export const useGetUserPost = (userId: number) => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_USER_POSTS],
@@ -250,19 +279,4 @@ export const useGetUserPost = (userId: number) => {
   });
 };
 
-export const useGetInfiniteUsers = () => {
-  return useInfiniteQuery({
-    queryKey: ["getInfiniteUsers"],
-    queryFn: getInfiniteUsers,
-    getNextPageParam: (lastPage) => {
-      if (lastPage && lastPage.documents.length === 0) {
-        return null;
-      }
-
-      const lastPageId =
-        lastPage?.documents[lastPage?.documents.length - 1].$id;
-
-      return lastPageId;
-    },
-  });
-};
+// post end
