@@ -12,6 +12,7 @@ import {
   deleteSavedPost,
   getCurrentUser,
   getInfinitePosts,
+  getInfiniteUsers,
   getOtherUserProfile,
   getPostById,
   getRecentPosts,
@@ -246,5 +247,22 @@ export const useGetUserPost = (userId: number) => {
     queryKey: [QUERY_KEYS.GET_USER_POSTS],
     queryFn: () => getUserPost(userId),
     enabled: !!userId,
+  });
+};
+
+export const useGetInfiniteUsers = () => {
+  return useInfiniteQuery({
+    queryKey: ["getInfiniteUsers"],
+    queryFn: getInfiniteUsers,
+    getNextPageParam: (lastPage) => {
+      if (lastPage && lastPage.documents.length === 0) {
+        return null;
+      }
+
+      const lastPageId =
+        lastPage?.documents[lastPage?.documents.length - 1].$id;
+
+      return lastPageId;
+    },
   });
 };

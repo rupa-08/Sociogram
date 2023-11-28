@@ -41,6 +41,8 @@ const Explore = () => {
   const postList =
     !isSearched && posts.pages.every((item) => item.documents.length === 0);
 
+  console.log(posts);
+
   return (
     <div className="explore-container mx-7 my-7">
       <div className="explore-inner_container">
