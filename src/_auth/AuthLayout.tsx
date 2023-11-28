@@ -1,5 +1,4 @@
 import { Outlet, Navigate } from "react-router-dom";
-// import sideImg from "../../public/assests/images/side-img.svg";
 
 const AuthLayout = () => {
   const isAuthenticated = false;

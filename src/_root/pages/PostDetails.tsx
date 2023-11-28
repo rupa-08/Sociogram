@@ -1,15 +1,16 @@
 import { Link, useParams } from "react-router-dom";
 
 import { formatDate } from "@/lib/utils";
+import { useUserContext } from "@/context/AuthContext";
 import Loader from "@/components/shared/Loader";
+import { Button } from "@/components/ui/button";
+import PostStats from "@/components/shared/PostStats";
+import GridPostList from "@/components/shared/GridPostList";
+
 import {
   useGetPostById,
   useGetUserPost,
 } from "@/lib/react-query/queriesAndMutations";
-import { useUserContext } from "@/context/AuthContext";
-import { Button } from "@/components/ui/button";
-import PostStats from "@/components/shared/PostStats";
-import GridPostList from "@/components/shared/GridPostList";
 
 const PostDetails = () => {
   const { id } = useParams();

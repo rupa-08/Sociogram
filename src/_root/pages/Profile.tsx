@@ -1,9 +1,10 @@
 import { useParams } from "react-router-dom";
 
-import { useGetOtherUserProfile } from "@/lib/react-query/queriesAndMutations";
+import { useUserContext } from "@/context/AuthContext";
 import ProfileCard from "@/components/shared/ProfileCard";
 import Loader from "@/components/shared/Loader";
-import { useUserContext } from "@/context/AuthContext";
+
+import { useGetOtherUserProfile } from "@/lib/react-query/queriesAndMutations";
 
 const Profile = () => {
   const { id } = useParams();

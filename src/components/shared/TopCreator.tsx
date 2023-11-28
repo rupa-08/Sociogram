@@ -1,7 +1,8 @@
-import { useGetUsers } from "@/lib/react-query/queriesAndMutations";
 import UserCard from "./UserCard";
 import Loader from "./Loader";
 import { useUserContext } from "@/context/AuthContext";
+
+import { useGetUsers } from "@/lib/react-query/queriesAndMutations";
 
 const TopCreator = () => {
   const { data: topUsers, isPending: isLoadingUsers } = useGetUsers(10);

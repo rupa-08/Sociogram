@@ -1,8 +1,10 @@
+import { Models } from "appwrite";
+
+import { useUserContext } from "@/context/AuthContext";
 import GridPostList from "@/components/shared/GridPostList";
 import Loader from "@/components/shared/Loader";
-import { useUserContext } from "@/context/AuthContext";
+
 import { useGetOtherUserProfile } from "@/lib/react-query/queriesAndMutations";
-import { Models } from "appwrite";
 
 const Saved = () => {
   const { user } = useUserContext();

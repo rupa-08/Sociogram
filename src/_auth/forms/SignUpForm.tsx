@@ -1,9 +1,11 @@
-import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 
-import { zodResolver } from "@hookform/resolvers/zod/src/zod.js";
 import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod/src/zod.js";
 
+import { SignUpValidation } from "@/lib/validation";
+import { useUserContext } from "@/context/AuthContext";
 import { useToast } from "@/components/ui/use-toast";
 import {
   Form,
@@ -15,14 +17,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import Loader from "@/components/shared/Loader";
 
 import {
   useCreateUserAccount,
   useSignInAccount,
 } from "@/lib/react-query/queriesAndMutations";
-import Loader from "@/components/shared/Loader";
-import { SignUpValidation } from "@/lib/validation";
-import { useUserContext } from "@/context/AuthContext";
 
 const SignUpForm = () => {
   const navigate = useNavigate();

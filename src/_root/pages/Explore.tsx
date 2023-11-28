@@ -2,15 +2,16 @@ import { useState, useEffect } from "react";
 
 import { useInView } from "react-intersection-observer";
 
-import { Input } from "@/components/ui/input";
 import useDebounce from "@/hooks/useDebounce";
+import Loader from "@/components/shared/Loader";
+import { Input } from "@/components/ui/input";
 import GridPostList from "@/components/shared/GridPostList";
 import SearchedResults from "@/components/shared/SearchedResults";
+
 import {
   useGetPosts,
   useSearchPosts,
 } from "@/lib/react-query/queriesAndMutations";
-import Loader from "@/components/shared/Loader";
 
 const Explore = () => {
   const { ref, inView } = useInView();
@@ -31,7 +32,7 @@ const Explore = () => {
 
   if (!posts) {
     return (
-      <div className="flex-center w-full- h-full">
+      <div className="flex-center w-full- h-full ml-[25%]">
         <Loader />
       </div>
     );
@@ -40,8 +41,6 @@ const Explore = () => {
   const isSearched = searchValue !== "";
   const postList =
     !isSearched && posts.pages.every((item) => item.documents.length === 0);
-
-  console.log(posts);
 
   return (
     <div className="explore-container mx-7 my-7">

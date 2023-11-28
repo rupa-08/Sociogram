@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 
+import { Models } from "appwrite";
+
+import { checkIsLiked } from "@/lib/utils";
+import Loader from "./Loader";
+
 import {
   useDeleteSavedPost,
   useGetCurrentUser,
   useLikedPost,
   useSavedPost,
 } from "@/lib/react-query/queriesAndMutations";
-import { checkIsLiked } from "@/lib/utils";
-import { Models } from "appwrite";
-import Loader from "./Loader";
 
 type postStatsProps = {
   post?: Models.Document;

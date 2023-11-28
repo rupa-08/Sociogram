@@ -4,9 +4,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useToast } from "../ui/use-toast";
-import { Button } from "../ui/button";
 import { useUserContext } from "@/context/AuthContext";
+import { updateUserValidation } from "@/lib/validation";
 import {
   Form,
   FormControl,
@@ -16,13 +15,15 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { updateUserValidation } from "@/lib/validation";
+import { Button } from "../ui/button";
+import { useToast } from "../ui/use-toast";
+import Loader from "../shared/Loader";
 import ProfileImageUploader from "../shared/ProfileImageUploader";
+
 import {
   useGetOtherUserProfile,
   useUpdateUserData,
 } from "@/lib/react-query/queriesAndMutations";
-import Loader from "../shared/Loader";
 
 const EditProfile = () => {
   const navigate = useNavigate();
