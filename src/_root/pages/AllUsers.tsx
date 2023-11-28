@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
@@ -27,7 +28,7 @@ const AllUsers = () => {
       </div>
 
       <div className="user-grid">
-        {users?.pages?.map((item, index) => (
+        {users?.pages?.map((item: any, index) => (
           <UserCard key={`page-${index}`} users={item?.documents} />
         ))}
       </div>

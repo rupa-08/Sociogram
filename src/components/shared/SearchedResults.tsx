@@ -1,11 +1,10 @@
-import { Models } from "appwrite";
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import Loader from "./Loader";
 import GridPostList from "./GridPostList";
 
 type SearchedResultProps = {
   isSearchFetching: boolean;
-  searchedPosts: Models.Document[];
+  searchedPosts: any;
 };
 
 const SearchedResults = ({
@@ -15,8 +14,6 @@ const SearchedResults = ({
   if (isSearchFetching) {
     return <Loader />;
   }
-
-  console.log("posts", searchedPosts);
 
   if (searchedPosts && searchedPosts.documents.length > 0) {
     return <GridPostList posts={searchedPosts.documents} />;
