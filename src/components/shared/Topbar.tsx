@@ -1,8 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
-import { Button } from "../ui/button";
-import { useSignOutAccount } from "@/lib/react-query/queriesAndMutations";
 import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 import { useUserContext } from "@/context/AuthContext";
+import { Button } from "../ui/button";
+
+import { useSignOutAccount } from "@/lib/react-query/queriesAndMutations";
 
 const Topbar = () => {
   const navigate = useNavigate();
@@ -20,7 +22,7 @@ const Topbar = () => {
       <div className="flex-between py-4 px-5">
         <Link to="/" className="flex gap-3 items-center">
           <img
-            src="/assets/images/logo.svg"
+            src="/assets/icons/app-logo.png"
             alt="logo"
             width={130}
             height={325}

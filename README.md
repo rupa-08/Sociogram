@@ -52,3 +52,7 @@ npm run dev
 ## Reactdropzone for file upload
 
 -> npm install --save react-dropzone
+
+## End of page
+
+-> npm install react-intersection-observer

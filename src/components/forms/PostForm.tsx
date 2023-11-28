@@ -1,7 +1,17 @@
-import * as z from "zod";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigate } from "react-router-dom";
 
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Models } from "appwrite";
+
+import { postValidation } from "@/lib/validation";
+import { useUserContext } from "@/context/AuthContext";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
+import { useToast } from "../ui/use-toast";
+import { Textarea } from "../ui/textarea";
+import FileUploader from "../shared/FileUploader";
 import {
   Form,
   FormItem,
@@ -10,20 +20,12 @@ import {
   FormField,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
-import { Button } from "../ui/button";
-import FileUploader from "../shared/FileUploader";
-import { postValidation } from "@/lib/validation";
-import { Models } from "appwrite";
+
 import {
   useCreatePost,
-  useDeletePost,
+  // useDeletePost,
   useUpdatePost,
 } from "@/lib/react-query/queriesAndMutations";
-import { useUserContext } from "@/context/AuthContext";
-import { useToast } from "../ui/use-toast";
-import { useNavigate } from "react-router-dom";
 
 type PostFormProps = {
   post?: Models.Document;
@@ -37,12 +39,13 @@ const PostForm = ({ post, action }: PostFormProps) => {
     useCreatePost();
   const { mutateAsync: updatePost, isPending: isUpdatingPost } =
     useUpdatePost();
-  const { mutateAsync: deletePost, isPending: isDeletingPost } =
-    useDeletePost();
+  // const { mutateAsync: deletePost, isPending: isDeletingPost } =
+  //   useDeletePost();
 
   const { user } = useUserContext();
   const { toast } = useToast();
 
+  // form validation
   const form = useForm<z.infer<typeof postValidation>>({
     resolver: zodResolver(postValidation),
     defaultValues: {
@@ -53,6 +56,7 @@ const PostForm = ({ post, action }: PostFormProps) => {
     },
   });
 
+  // form submission handle
   const handleFormSubmit = async (values: z.infer<typeof postValidation>) => {
     if (post && action === "Update") {
       const updatedPost = await updatePost({

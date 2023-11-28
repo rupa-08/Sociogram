@@ -174,7 +174,7 @@
   }
 
   .profile-inner_container {
-    @apply flex items-center md:mb-8 xl:items-start gap-8 flex-col xl:flex-row relative max-w-5xl w-full;
+    @apply items-center md:mb-8 xl:items-start gap-8 flex-col xl:flex-row relative max-w-5xl w-full;
   }
 
   .profile-tab {
@@ -183,7 +183,7 @@
 
   /* Saved */
   .saved-container {
-    @apply flex flex-col flex-1 items-center gap-10 overflow-scroll py-10 px-5 md:p-14 custom-scrollbar;
+    @apply flex flex-col flex-1  gap-10 overflow-scroll py-10 px-5 md:p-14 custom-scrollbar;
   }
 
   /* Bottom bar */
@@ -219,7 +219,7 @@
 
   /* Left sidebar */
   .leftsidebar {
-    @apply hidden md:flex px-6 py-10 flex-col justify-between min-w-[270px] bg-dark-2;
+    @apply hidden md:flex px-6 py-10 flex-col justify-between min-w-[270px] bg-dark-2 custom-scrollbar overflow-scroll;
   }
 
   .leftsidebar-link {
@@ -268,6 +268,10 @@
   /* Button */
   .shad-button_primary {
     @apply bg-primary-500 hover:bg-primary-500 text-light-1 flex gap-2 !important;
+  }
+
+  .shad-button_secondary {
+    @apply bg-white hover:bg-dark-4 hover:text-white text-dark-2 flex gap-2 !important;
   }
 
   .shad-button_dark_4 {

@@ -5,22 +5,31 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 
+import { QUERY_KEYS } from "./queryKeys";
 import {
   createPost,
   createUserAccount,
   deletePost,
   deleteSavedPost,
   getCurrentUser,
+  getInfinitePosts,
+  getInfiniteUsers,
+  getOtherUserProfile,
   getPostById,
   getRecentPosts,
+  getUserPost,
+  getUsers,
   likePost,
   savePost,
+  serachPost,
   signInAccount,
   signOutAccount,
   updatePost,
+  updateUser,
 } from "../appwrite/api";
-import { INewPost, INewUser, IUpdatePost } from "@/types";
-import { QUERY_KEYS } from "./queryKeys";
+import { INewPost, INewUser, IUpdatePost, IUpdateUser } from "@/types";
+
+// user account create and sign in
 
 export const useCreateUserAccount = () => {
   return useMutation({
@@ -40,6 +49,8 @@ export const useSignOutAccount = () => {
     mutationFn: signOutAccount,
   });
 };
+
+// user post crud start
 
 export const useCreatePost = () => {
   const queryClient = useQueryClient();
@@ -137,12 +148,69 @@ export const useDeleteSavedPost = () => {
   });
 };
 
+// user post crud end
+
+// user crud start
+
 export const useGetCurrentUser = () => {
   return useQuery({
     queryKey: [QUERY_KEYS.GET_CURRENT_USER],
     queryFn: getCurrentUser,
   });
 };
+
+export const useGetUsers = (limit?: number) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USERS, limit],
+    queryFn: () => getUsers(limit),
+  });
+};
+
+export const useGetOtherUserProfile = (userId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USER_BY_ID, userId],
+    queryFn: () => getOtherUserProfile(userId),
+    enabled: !!userId,
+  });
+};
+
+export const useUpdateUserData = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (updateUserData: IUpdateUser) => updateUser(updateUserData),
+
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_USER_BY_ID, data?.$id],
+      });
+    },
+  });
+};
+
+export const useGetInfiniteUsers = () => {
+  return useInfiniteQuery({
+    queryKey: ["getInfiniteUsers"],
+    queryFn: getInfiniteUsers,
+    getNextPageParam: (lastPage) => {
+      if (lastPage && lastPage.documents.length === 0) {
+        return null;
+      }
+
+      const lastPageId =
+        lastPage?.documents[lastPage?.documents.length - 1].$id;
+
+      return lastPageId;
+    },
+  });
+};
+
+// user crud end
+
+// post start
 
 export const useGetPostById = (postId: string) => {
   return useQuery({
@@ -177,3 +245,38 @@ export const useDeletePost = () => {
       }),
   });
 };
+
+export const useGetPosts = () => {
+  return useInfiniteQuery({
+    queryKey: [QUERY_KEYS.GET_INFINITE_POSTS],
+    queryFn: getInfinitePosts,
+    getNextPageParam: (lastPage) => {
+      if (lastPage && lastPage.documents.length === 0) {
+        return null;
+      }
+
+      const lastPageId =
+        lastPage?.documents[lastPage?.documents.length - 1].$id;
+
+      return lastPageId;
+    },
+  });
+};
+
+export const useSearchPosts = (searchParam: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.SEARCH_POSTS, searchParam],
+    queryFn: () => serachPost(searchParam),
+    enabled: !!searchParam, // automatically re fetch post when search param changes
+  });
+};
+
+export const useGetUserPost = (userId: number) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USER_POSTS],
+    queryFn: () => getUserPost(userId),
+    enabled: !!userId,
+  });
+};
+
+// post end

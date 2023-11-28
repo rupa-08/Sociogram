@@ -1,13 +1,16 @@
 import { Models } from "appwrite";
+
 import Loader from "@/components/shared/Loader";
 import PostCard from "@/components/shared/PostCard";
+import TopCreator from "@/components/shared/TopCreator";
+
 import { useGetRecentPosts } from "@/lib/react-query/queriesAndMutations";
 
 const Home = () => {
   const {
     data: posts,
     isPending: isPostLoading,
-    isError: isErrorPosts,
+    // isError: isErrorPosts,
   } = useGetRecentPosts();
 
   return (
@@ -27,6 +30,8 @@ const Home = () => {
           )}
         </div>
       </div>
+
+      <TopCreator />
     </div>
   );
 };

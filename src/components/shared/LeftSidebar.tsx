@@ -1,10 +1,12 @@
+import { useEffect } from "react";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
+
+import { INavLink } from "@/types";
 import { sidebarLinks } from "@/constants/Constants";
 import { useUserContext } from "@/context/AuthContext";
-import { useSignOutAccount } from "@/lib/react-query/queriesAndMutations";
-import { INavLink } from "@/types";
-import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
-import { useEffect } from "react";
+
+import { useSignOutAccount } from "@/lib/react-query/queriesAndMutations";
 
 const LeftSidebar = () => {
   const navigate = useNavigate();
@@ -22,7 +24,7 @@ const LeftSidebar = () => {
       <div className="flex flex-col gap-11">
         <Link to="/" className="flex gap-3 items-center">
           <img
-            src="/assets/images/logo.svg"
+            src="/assets/icons/app-logo.png"
             alt="logo"
             width={170}
             height={36}
@@ -72,7 +74,7 @@ const LeftSidebar = () => {
       </div>
       <Button
         variant="ghost"
-        className="shad-button_ghost"
+        className="shad-button_ghost mt-20 mb-10"
         onClick={() => signOut()}
       >
         <img src="/assets/icons/logout.svg" alt="logout" />

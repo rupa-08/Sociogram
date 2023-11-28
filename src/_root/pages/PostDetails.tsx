@@ -1,20 +1,30 @@
 import { Link, useParams } from "react-router-dom";
 
 import { formatDate } from "@/lib/utils";
-import Loader from "@/components/shared/Loader";
-import { useGetPostById } from "@/lib/react-query/queriesAndMutations";
 import { useUserContext } from "@/context/AuthContext";
+import Loader from "@/components/shared/Loader";
 import { Button } from "@/components/ui/button";
 import PostStats from "@/components/shared/PostStats";
+import GridPostList from "@/components/shared/GridPostList";
+
+import {
+  useGetPostById,
+  useGetUserPost,
+} from "@/lib/react-query/queriesAndMutations";
 
 const PostDetails = () => {
   const { id } = useParams();
   const { data: post, isPending } = useGetPostById(id || "");
+  const { data: relatedPost, isPending: isLodingRelatedPost } = useGetUserPost(
+    post?.creator?.$id
+  );
   const { user } = useUserContext();
 
   const handleDeletePost = () => {};
+
+  console.log(relatedPost);
   return (
-    <div className="post_details-conatiner">
+    <div className="post_details-container">
       {isPending ? (
         <Loader />
       ) : (
@@ -79,7 +89,7 @@ const PostDetails = () => {
               </div>
             </div>
 
-            <hr className="boredr w-full border-dark-4/40" />
+            <hr className="border w-full border-dark-4/40" />
 
             <div className="flex flex-col flex-1 w-full small-medium lg:base-regular">
               <p>{post?.caption}</p>
@@ -98,6 +108,19 @@ const PostDetails = () => {
           </div>
         </div>
       )}
+      <hr className="border w-full border-white/40 my-5" />
+      <div className="w-full max-w-5xl mb-8">
+        <h3 className="body-bold md:h3-bold mb-5">Related posts</h3>
+        {isLodingRelatedPost ? (
+          <Loader />
+        ) : (
+          <GridPostList
+            posts={relatedPost?.documents}
+            showStats={false}
+            showUser={false}
+          />
+        )}
+      </div>
     </div>
   );
 };
