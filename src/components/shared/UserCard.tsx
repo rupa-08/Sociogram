@@ -9,15 +9,33 @@ type UserCardProps = {
 const UserCard = ({ users }: UserCardProps) => {
   return (
     <>
-      {users?.map((user: Models.Document) => (
-        <Link to={`/profile/${user.$id}`} className="user-card">
+      {users?.length > 0 ? (
+        users?.map((user: Models.Document) => (
+          <Link to={`/profile/${user.$id}`} className="user-card">
+            <img
+              className="w-8 h-8 rounded-full object-cover"
+              src={user?.imageUrl}
+              alt="creator-img"
+            />
+            <p className="text-xs font-bold text-center">{user?.name}</p>
+            <p className="text-xs font-bold text-center">@{user?.username}</p>
+            <Button
+              type="button"
+              className="shad-button_primary whitespace-nowrap"
+            >
+              View
+            </Button>
+          </Link>
+        ))
+      ) : (
+        <Link to={`/profile/${users.$id}`} className="user-card">
           <img
             className="w-8 h-8 rounded-full object-cover"
-            src={user?.imageUrl}
+            src={users?.imageUrl}
             alt="creator-img"
           />
-          <p className="text-xs font-bold text-center">{user?.name}</p>
-          <p className="text-xs font-bold text-center">@{user?.username}</p>
+          <p className="text-xs font-bold text-center">{users?.name}</p>
+          <p className="text-xs font-bold text-center">@{users?.username}</p>
           <Button
             type="button"
             className="shad-button_primary whitespace-nowrap"
@@ -25,7 +43,7 @@ const UserCard = ({ users }: UserCardProps) => {
             View
           </Button>
         </Link>
-      ))}
+      )}
     </>
   );
 };
